@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lixo Eletrônico - Projeto Educativo</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" type="text/css" media="all">
+
+    <!-- JQuery para o Acordeon -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    
+    <style>
+        /* Estilos baseados no Guia de Estilo CPS (Mescla Oficial) */
+        :root {
+            --cps-red: #C8102E; /* Vermelho Oficial Logo CPS */
+            --cps-dark-red: #9B0C23;
+            --cps-teal: #005c6d; /* Cor de Componentes 1 */
+            --cps-dark-teal: #004854;
+            --cps-cyan: #00c1cf; /* Cor de Componentes 2 */
+            --cps-dark-cyan: #00d8e8;
+            --cps-gray-dark: #333333;
+            --cps-gray: #666666;
+            --cps-gray-light: #E0E0E0;
+            --cps-bg-light: #f8f8f8;
+            --cps-white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Roboto", sans-serif;
+            color: var(--cps-gray-dark);
+            background-color: #f4f4f4;
+            display: flex;
+            line-height: 1.6;
+        }
+
+        /* Menu Lateral */
+        #menu-left {
+            width: 280px;
+            background-color: var(--cps-white);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 30px 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .logotipo-cps {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logotipo-cps i {
+            color: var(--cps-red);
+            font-size: 45px;
+        }
+
+        #menu-left h1 {
+            font-family: "Roboto Slab", serif;
+            font-size: 20px;
+            color: var(--cps-gray-dark);
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        #menu-lateral {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #menu-lateral li {
+            margin-bottom: 5px;
+        }
+
+        #menu-lateral a {
+            display: block;
+            padding: 12px 15px;
+            color: var(--cps-gray);
+            text-decoration: none;
+            font-size: 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        #menu-lateral a:hover {
+            background-color: var(--cps-bg-light);
+            color: var(--cps-teal);
+            border-left: 3px solid var(--cps-red);
+            padding-left: 18px;
+        }
+
+        .versao {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 11px;
+            color: #999;
+        }
+
+        /* Conteúdo Principal */
+        #container-sections {
+            margin-left: 280px;
+            padding: 50px;
+            flex: 1;
+            background-color: var(--cps-white);
+            min-height: 100vh;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+        }
+
+        h1, h2, h3 {
+            font-family: "Roboto Slab", serif;
+            margin-top: 0;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: var(--cps-gray-dark);
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--cps-teal);
+        }
+
+        h3 {
+            color: var(--cps-gray-dark);
+            font-size: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            color: var(--cps-gray);
+            margin-bottom: 20px;
+        }
+
+        .titulo-divisor {
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--cps-red);
+            margin-bottom: 40px;
+        }
+
+        .separador {
+            border: 0;
+            border-top: 1px solid var(--cps-gray-light);
+            margin: 50px 0;
+        }
+
+        /* Destaque (Objetivo) */
+        .destaque-box {
+            background-color: var(--cps-bg-light);
+            border-left: 4px solid var(--cps-red);
+            padding: 20px 30px;
+            font-size: 18px;
+            color: var(--cps-gray-dark);
+            font-style: italic;
+        }
+
+        .destaque-box strong {
+            color: var(--cps-red);
+        }
+
+        /* Cards Numéricos (O Problema) */
+        .stats-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 200px;
+            background-color: var(--cps-white);
+            box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 15%);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--cps-cyan);
+            transition: transform 0.3s;
+        }
+
+        .stat-card.red-card { border-bottom-color: var(--cps-red); }
+        .stat-card.teal-card { border-bottom-color: var(--cps-teal); }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-family: "Roboto Slab", serif;
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-number.cyan { color: var(--cps-cyan); }
+        .stat-number.red { color: var(--cps-red); }
+        .stat-number.teal { color: var(--cps-teal); }
+        .stat-number.gray { color: var(--cps-gray); }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--cps-gray);
+        }
+
+        /* Ciclo (Menu Subsite Component adaptation) */
+        .ciclo-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .bt_subsite_container {
+            text-align: center;
+            max-width: 150px;
+            position: relative;
+        }
+
+        .bt_subsite_icone {
+            box-sizing: border-box;
+            display: inline-block;
+            color: var(--cps-white);
+            background: var(--cps-teal);
+            font-size: 40px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            line-height: 100px;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .bt_subsite_icone.cyan { background: var(--cps-cyan); }
+        .bt_subsite_icone.red { background: var(--cps-red); }
+        .bt_subsite_icone.gray { background: var(--cps-gray); }
+
+        .bt_subsite_icone:hover {
+            transform: scale(1.1);
+            background: var(--cps-dark-teal);
+        }
+        .bt_subsite_icone.cyan:hover { background: var(--cps-dark-cyan); }
+        .bt_subsite_icone.red:hover { background: var(--cps-dark-red); }
+
+        .bt_subsite_texto {
+            font-size: 16px;
+            display: block;
+            font-family: "Roboto Slab", Sans-serif;
+            color: var(--cps-teal);
+            line-height: 1.3;
+        }
+        .bt_subsite_texto.red-text { color: var(--cps-red); }
+
+        .ciclo-seta {
+            font-size: 24px;
+            color: var(--cps-gray-light);
+        }
+
+        /* Link Externo (Como ajudar) */
+        .container_interno {
+            margin-top: 20px;
+            max-width: 400px;
+            background-color: var(--cps-white);
+            box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 15%);
+            text-align: center;
+            flex-direction: row-reverse;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .container-interno-icone {
+            display: inline-flex;
+            flex: 0 0 auto;
+            box-sizing: border-box;
+            background-color: var(--cps-cyan);
+            padding: 0.5em;
+            color: var(--cps-white);
+            line-height: 1;
+            transition: all .3s;
+            font-size: 40px;
+        }
+
+        .container-interno-icone.red-bg { background-color: var(--cps-red); }
+
+        .container_interno:hover .container-interno-icone { background-color: var(--cps-dark-cyan); }
+        .container_interno:hover .container-interno-icone.red-bg { background-color: var(--cps-dark-red); }
+
+        .container-interno-title {
+            flex-grow: 1;
+            font-family: "Roboto", Sans-serif;
+            font-weight: 300;
+            color: var(--cps-cyan);
+            font-size: 20px;
+            margin: 0;
+            padding: 0 15px;
+        }
+        .container-interno-title.red-text { color: var(--cps-red); }
+
+        /* Materiais (Barras) */
+        .materiais-lista {
+            list-style: none;
+            padding: 0;
+        }
+
+        .material-item {
+            margin-bottom: 20px;
+        }
+
+        .material-header {
+            display: flex;
+            justify-content: space-between;
+            font-family: "Roboto Slab", serif;
+            color: var(--cps-gray-dark);
+            margin-bottom: 5px;
+        }
+
+        .material-bar-bg {
+            background-color: var(--cps-gray-light);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .material-bar-fill {
+            height: 100%;
+            background-color: var(--cps-gray);
+        }
+        .material-bar-fill.red { background-color: var(--cps-red); }
+        .material-bar-fill.teal { background-color: var(--cps-teal); }
+        .material-bar-fill.cyan { background-color: var(--cps-cyan); }
+        .material-bar-fill.orange { background-color: #f0ad4e; }
+
+        /* Acordeon (Curiosidades) */
+        #content-accordion {
+            display: inline-block;
+            width: 100%;
+        }   
+
+        .accordion-container {
+            font-family: "Roboto", Sans-serif;
+            font-size: 16px;
+            color: var(--cps-gray-dark);	
+            position: relative;
+            width: 100%;    
+            outline: 0;
+            border: 1px solid var(--cps-gray-light);
+        }
+
+        .accordion-content {
+            border-bottom: 1px solid var(--cps-gray-light);
+            color: var(--cps-gray);
+            padding: 20px 40px;
+            background: var(--cps-white);
+            display: none;
+        }
+
+        .accordion-container .article-title {
+            display: block;
+            position: relative;
+            margin: 0;
+            padding: 15px 15px 15px 50px;
+            font-family: "Roboto", Sans-serif;
+            font-weight: bold;
+            font-size: 16px;	
+            color: var(--cps-gray);
+            cursor: pointer;
+            transition: 0.3s;
+            border-bottom: 1px solid var(--cps-gray-light);
+            background-color: var(--cps-bg-light);
+        }
+
+        .accordion-container .content-entry:last-child .article-title {
+            border-bottom: none;
+        }
+
+        .accordion-container .content-entry.open:last-child .article-title {
+            border-bottom: 1px solid var(--cps-gray-light);
+        }
+
+        .accordion-container .article-title:hover,
+        .accordion-container .content-entry.open .article-title {
+            color: var(--cps-teal);
+        }
+
+        .accordion-container .article-title:hover i:before,
+        .accordion-container .content-entry.open i:before {
+            color: var(--cps-teal);
+        }
+
+        .accordion-container .content-entry i {  
+            position: absolute;                
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-style: normal;
+            font-size: 18px;
+            color: var(--cps-gray);
+        }
+
+        .accordion-container .content-entry i:before {
+            content: "\f078";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            transition: 0.3s;
+        }
+
+        .accordion-container .content-entry.open i:before {
+            content: "\f077";
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #menu-left {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 20px;
+            }
+            #container-sections {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .ciclo-seta {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="menu-left">
+        <div class="logotipo-cps" style="text-align: center; margin-bottom: 25px;">
+            <!-- Salve a imagem do logo na mesma pasta deste arquivo HTML -->
+            <img src="newphoto.jpg" alt="Logo" style="max-width: 120px; height: auto;">
+        </div>
+        <h1>Lixo Eletrônico<br>Projeto Educativo</h1>    
+        <nav role="navigation">
+            <ul id="menu-lateral">
+                <li><a href="#introducao">Introdução</a></li>
+                <li><a href="#numeros">O problema em números</a></li>
+                <li><a href="#ciclo">Ciclo do lixo</a></li>
+                <li><a href="#materiais">Materiais Valiosos</a></li>
+                <li><a href="#curiosidades">Curiosidades</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="container-sections">
+        <div class="content-wrapper">
+            
+            <section id="introducao">
+                <h1>Lixo eletrônico — problema global, responsabilidade local</h1>
+                <span class="titulo-divisor"></span>
+
+                <p>Uma investigação sobre o descarte inadequado de equipamentos eletrônicos, seus impactos ambientais e sociais, e o que cada um de nós pode fazer para mudar esse cenário.</p>
+                
+                <div class="destaque-box">
+                    Este projeto busca <strong>conscientizar</strong> sobre o crescimento acelerado do lixo eletrônico (e-waste) no Brasil e no mundo. Investigamos de onde vem, para onde vai, quais substâncias tóxicas carrega e quais <strong>alternativas sustentáveis</strong> existem — desde a logística reversa até o reuso criativo de componentes.
+                </div>
+            </section>
+
+            <hr class="separador">
+
+            <section id="numeros">
+                <h2>O problema em números</h2>
+                <p>Dados alarmantes sobre o impacto do e-waste no planeta.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card red-card">
+                        <div class="stat-number red">62M</div>
+                        <div class="stat-label">toneladas de e-waste produzidas no mundo em 2023</div>
+                    </div>
+                    <div class="stat-card teal-card">
+                        <div class="stat-number teal">2,2%</div>
+                        <div class="stat-label">do lixo total, mas com impacto ambiental desproporcional</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number cyan">17,4%</div>
+                        <div class="stat-label">é reciclado de forma documentada e segura globalmente</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number gray">2,1M</div>
+                        <div class="stat-label">toneladas produzidas pelo Brasil — 1º colocado na América Latina</div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="separador">
+
+            <section id="ciclo">
+                <h2>Ciclo do lixo eletrônico</h2>
+                <p>Entenda o que acontece com o seu dispositivo velho após o fim de sua vida útil.</p>
+                
+                <h3>O Caminho Comum (Inadequado)</h3>
+                <div class="ciclo-container">
+                    <div class="bt_subsite_container">
+                        <div class="bt_subsite_icone teal"><i class="fas fa-laptop"></i></div>
+                        <span class="bt_subsite_texto">Uso do dispositivo</span>
+                    </div>
+                    <i class="fas fa-chevron-right ciclo-seta"></i>
+                    <div class="bt_subsite_container">
+                        <div class="bt_subsite_icone gray"><i class="fas fa-trash-alt"></i></div>
+                        <span class="bt_subsite_texto" style="color: var(--cps-gray)">Descarte incorreto</span>
+                    </div>
+                    <i class="fas fa-chevron-right ciclo-seta"></i>
+                    <div class="bt_subsite_container">
+                        <div class="bt_subsite_icone red"><i class="fas fa-exclamation-triangle"></i></div>
+                        <span class="bt_subsite_texto red-text">Aterro e contaminação</span>
+                    </div>
+                </div>
+
+                <br><br>
+                <h3>O Caminho Ideal (Sustentável)</h3>
+                <div class="ciclo-container">
+                    <div class="bt_subsite_container">
+                        <div class="bt_subsite_icone cyan"><i class="fas fa-map-marker-alt"></i></div>
+                        <span class="bt_subsite_texto" style="color: var(--cps-cyan)">Ponto de coleta</span>
+                    </div>
+                    <i class="fas fa-chevron-right ciclo-seta"></i>
+                    <div class="bt_subsite_container">
+                        <div class="bt_subsite_icone cyan"><i class="fas fa-recycle"></i></div>
+                        <span class="bt_subsite_texto" style="color: var(--cps-cyan)">Reciclagem correta</span>
+                    </div>
+                    <i class="fas fa-chevron-right ciclo-seta"></i>
+                    <div class="bt_subsite_container">
+                        <div class="bt_subsite_icone cyan"><i class="fas fa-leaf"></i></div>
+                        <span class="bt_subsite_texto" style="color: var(--cps-cyan)">Matéria-prima recuperada</span>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="separador">
+
+            <section id="materiais">
+                <h2>Materiais valiosos num smartphone</h2>
+                <p>Um celular comum possui diversos elementos valiosos, mas também substâncias altamente tóxicas.</p>
+                
+                <ul class="materiais-lista">
+                    <li class="material-item">
+                        <div class="material-header">
+                            <span>Cobre</span>
+                            <span>28%</span>
+                        </div>
+                        <div class="material-bar-bg"><div class="material-bar-fill orange" style="width: 28%;"></div></div>
+                    </li>
+                    <li class="material-item">
+                        <div class="material-header">
+                            <span>Ferro e aço</span>
+                            <span>15%</span>
+                        </div>
+                        <div class="material-bar-bg"><div class="material-bar-fill" style="width: 15%;"></div></div>
+                    </li>
+                    <li class="material-item">
+                        <div class="material-header">
+                            <span>Plástico</span>
+                            <span>12%</span>
+                        </div>
+                        <div class="material-bar-bg"><div class="material-bar-fill teal" style="width: 12%;"></div></div>
+                    </li>
+                    <li class="material-item">
+                        <div class="material-header">
+                            <span>Vidro / cerâmica</span>
+                            <span>8%</span>
+                        </div>
+                        <div class="material-bar-bg"><div class="material-bar-fill cyan" style="width: 8%;"></div></div>
+                    </li>
+                    <li class="material-item">
+                        <div class="material-header">
+                            <span>Ouro e prata</span>
+                            <span>4%</span>
+                        </div>
+                        <div class="material-bar-bg"><div class="material-bar-fill orange" style="width: 4%;"></div></div>
+                    </li>
+                    <li class="material-item">
+                        <div class="material-header">
+                            <span style="color: var(--cps-red);">Substâncias tóxicas</span>
+                            <span style="color: var(--cps-red);">3%</span>
+                        </div>
+                        <div class="material-bar-bg"><div class="material-bar-fill red" style="width: 3%;"></div></div>
+                    </li>
+                </ul>
+            </section>
+
+            <hr class="separador">
+
+            <section id="curiosidades">
+                <h2>Curiosidades e Fatos</h2>
+                <p>Explore informações adicionais sobre o descarte de eletrônicos no Acordeon abaixo.</p>
+
+                <div id="content-accordion">
+                    <div id="accordion" class="accordion-container">
+                        
+                        <article class="content-entry">
+                            <h4 class="article-title"><i></i>Mineração Urbana vs Tradicional</h4>
+                            <div class="accordion-content">
+                                <p><strong>Uma tonelada de celulares tem mais ouro que uma tonelada de minério.</strong> Extrair ouro de placas eletrônicas rende até 350g por tonelada — contra apenas 5g no minério bruto. A chamada "mineração urbana" é altamente eficiente.</p>
+                            </div>
+                        </article>
+
+                        <article class="content-entry">
+                            <h4 class="article-title"><i></i>O Perigo da Contaminação</h4>
+                            <div class="accordion-content">
+                                <p><strong>Mercúrio e chumbo contaminam solo e água por décadas.</strong> Uma única pilha de zinco-carvão pode contaminar até 1 milhão de litros de água se descartada incorretamente em lixões ou terrenos baldios.</p>
+                            </div>
+                        </article>
+
+                        <article class="content-entry">
+                            <h4 class="article-title"><i></i>A Lei no Brasil</h4>
+                            <div class="accordion-content">
+                                <p><strong>O Brasil tem lei de logística reversa desde 2010.</strong> A Política Nacional de Resíduos Sólidos (Lei 12.305) obriga fabricantes a recolherem e-waste, porém a infraestrutura e a fiscalização ainda são muito deficientes no país.</p>
+                            </div>
+                        </article>
+
+                        <article class="content-entry">
+                            <h4 class="article-title"><i></i>O Crescimento do Problema</h4>
+                            <div class="accordion-content">
+                                <p><strong>O e-waste é o fluxo de resíduos que cresce mais rápido no planeta.</strong> Com a obsolescência programada e a rápida inovação tecnológica, a projeção para 2030 é de 82 milhões de toneladas — um aumento de 33% em menos de uma década.</p>
+                            </div>
+                        </article>
+
+                        <article class="content-entry">
+                            <h4 class="article-title"><i></i>Economia de Energia</h4>
+                            <div class="accordion-content">
+                                <p><strong>Reciclar alumínio de eletrônicos consome 95% menos energia</strong> do que extraí-lo diretamente da natureza (bauxita). Cada quilo de alumínio reciclado evita a emissão de cerca de 9 kg de gases de efeito estufa (CO₂).</p>
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+
+
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Script do Acordeon e Smooth Scroll -->
+    <script>
+        // Acordeon functionality
+        $(function() {
+            var Accordion = function(el, multiple) {
+                this.el = el || {};
+                this.multiple = multiple || false;
+
+                var links = this.el.find('.article-title');
+                links.on('click', {
+                    el: this.el,
+                    multiple: this.multiple
+                }, this.dropdown);
+            }
+
+            Accordion.prototype.dropdown = function(e) {
+                var $el = e.data.el;
+                $this = $(this),
+                $next = $this.next();
+
+                $next.slideToggle(300);
+                $this.parent().toggleClass('open');
+
+                if (!e.data.multiple) {
+                    $el.find('.accordion-content').not($next).slideUp(300).parent().removeClass('open');
+                };
+            }
+            var accordion = new Accordion($('.accordion-container'), false);
+        });
+
+        // Fechar clicando fora (opcional)
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest('#accordion').length) {
+                $('.accordion-content').slideUp(300).parent().removeClass('open');
+            }
+        });
+
+        // Smooth Scroll para o menu lateral
+        $(document).ready(function(){
+            $("a").on('click', function(event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+                    var hash = this.hash;
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function(){
+                        window.location.hash = hash;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
